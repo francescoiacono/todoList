@@ -1,5 +1,6 @@
 import { useTodoList } from "@/components/providers";
 import { TodoData } from "@/types/todoTypes";
+import Image from "next/image";
 
 interface CheckboxItemProps {
   todo: TodoData;
@@ -22,7 +23,12 @@ export const CheckboxItem: React.FC<CheckboxItemProps> = ({ todo }) => {
           removeTodoFromList(todo.id);
         }}
       >
-        X
+        <Image
+          src="/assets/images/icons/sidebar/cross.svg"
+          alt="Remove list button"
+          width={15}
+          height={15}
+        />
       </button>
     </li>
   );

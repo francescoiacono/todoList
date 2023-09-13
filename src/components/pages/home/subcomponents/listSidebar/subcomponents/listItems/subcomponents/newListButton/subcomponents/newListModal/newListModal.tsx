@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal } from "@/components/ui";
+import { Button, Input, Modal } from "@/components/ui";
 import { ListData } from "@/types/todoTypes";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -30,10 +30,11 @@ export const NewListModal: React.FC<NewListModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen}>
-      <h1>Modal</h1>
-      <input type="text" onChange={handleChange} />
-      <button onClick={() => onClose(newList)}>Add</button>
+    <Modal title="New List" isOpen={isOpen}>
+      <div className="flex gap-2">
+        <Input type="text" onChange={handleChange} />
+        <Button onClick={() => onClose(newList)}>Add</Button>
+      </div>
     </Modal>
   );
 };

@@ -1,19 +1,20 @@
 import { useTodoList } from "@/components/providers";
-import { NewTodoModal } from "./subcomponents";
 import { useState } from "react";
-import { TodoData } from "@/types/todoTypes";
+import { NewListModal } from "./subcomponents";
+import { ListData } from "@/types/todoTypes";
 import Image from "next/image";
 
-export const NewListItemButton = () => {
-  const { addTodoToList } = useTodoList();
-
+export const NewListButton = () => {
+  const { addList } = useTodoList();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="mt-2">
+    <div className="p-2 flex-grow-1 w-full">
       <button
         className="flex items-center gap-2 text-sm text-gray-500"
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
       >
         <Image
           src="/assets/images/icons/sidebar/plus.svg"
@@ -21,13 +22,13 @@ export const NewListItemButton = () => {
           width={15}
           height={15}
         />
-        Add item
+        New list
       </button>
 
-      <NewTodoModal
+      <NewListModal
         isOpen={isModalOpen}
-        onClose={(newTodo: TodoData) => {
-          addTodoToList(newTodo);
+        onClose={(newList: ListData) => {
+          addList(newList);
           setIsModalOpen(false);
         }}
       />

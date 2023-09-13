@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal } from "@/components/ui";
+import { Button, Input, Modal } from "@/components/ui";
 import { TodoData } from "@/types/todoTypes";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -29,10 +29,11 @@ export const NewTodoModal: React.FC<NewListModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen}>
-      <h1>Add Todo</h1>
-      <input type="text" onChange={handleChange} />
-      <button onClick={() => onClose(newTodo)}>Add</button>
+    <Modal title="Add Todo" isOpen={isOpen}>
+      <div className="flex gap-2">
+        <Input type="text" onChange={handleChange} />
+        <Button onClick={() => onClose(newTodo)}>Add</Button>
+      </div>
     </Modal>
   );
 };
