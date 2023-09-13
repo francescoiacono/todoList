@@ -1,18 +1,37 @@
+"use client";
+import { useTodoList } from "@/components/providers";
+import { NewTodoModal } from "./subcomponents";
+import { useState } from "react";
+import { TodoData } from "@/types/todoTypes";
+
 export const TodoList = () => {
+  const { currentList, addTodoToList, setTodoStatus } = useTodoList();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div>
-      <h1>TodoList</h1>
+      <h1>{currentList?.name}</h1>
       <ul>
-        <li>
-          <input type="checkbox" /> <span>Todo 1</span>
-        </li>
-        <li>
-          <input type="checkbox" /> <span>Todo 2</span>
-        </li>
-        <li>
-          <input type="checkbox" /> <span>Todo 3</span>
-        </li>
+        {currentList?.todos.map((todo) => (
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.status}
+              onChange={() => setTodoStatus(todo.id)}
+            />
+            <span>{todo.name}</span>
+          </li>
+        ))}
       </ul>
+      <button onClick={() => setIsModalOpen(true)}>+ Todo</button>
+      <NewTodoModal
+        isOpen={isModalOpen}
+        onClose={(newTodo: TodoData) => {
+          addTodoToList(newTodo);
+          setIsModalOpen(false);
+        }}
+      />
     </div>
   );
 };

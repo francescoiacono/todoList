@@ -6,36 +6,36 @@ import { useState } from "react";
 import { NewListModal } from "./subcomponents";
 
 export const ListSidebar = () => {
-  const { lists, addList } = useTodoList();
+  const { lists, addList, loadList } = useTodoList();
 
-  const [openModal, setOpenModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="border-r-2 w-1/6 h-full p-2">
-      <h1 className=" text-2xl">List</h1>
+      <h1>Lists</h1>
       <ul className="p-2">
         {lists.length === 0 ? (
           <li>Create your first todo task list!</li>
         ) : (
           lists.map((list: ListData) => (
             <li key={list.id}>
-              <a href="#">{list.name}</a>
+              <button onClick={() => loadList(list.id)}>{list.name}</button>
             </li>
           ))
         )}
       </ul>
       <button
         onClick={() => {
-          setOpenModal(!openModal);
+          setIsModalOpen(true);
         }}
       >
-        + list
+        + List
       </button>
       <NewListModal
-        isOpen={openModal}
+        isOpen={isModalOpen}
         onClose={(newList: ListData) => {
           addList(newList);
-          setOpenModal(false);
+          setIsModalOpen(false);
         }}
       />
     </div>

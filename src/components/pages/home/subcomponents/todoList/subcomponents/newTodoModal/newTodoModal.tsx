@@ -1,38 +1,38 @@
 "use client";
 
 import { Modal } from "@/components/ui";
-import { ListData } from "@/types/todoTypes";
+import { TodoData } from "@/types/todoTypes";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface NewListModalProps {
   isOpen: boolean;
-  onClose: (newList: ListData) => void;
+  onClose: (newTodo: TodoData) => void;
 }
 
-export const NewListModal: React.FC<NewListModalProps> = ({
+export const NewTodoModal: React.FC<NewListModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [newList, setNewList] = useState<ListData>({
+  const [newTodo, setNewTodo] = useState<TodoData>({
     id: "",
     name: "",
-    todos: [],
+    status: false,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewList({
+    setNewTodo({
       id: uuidv4(),
       name: e.target.value,
-      todos: [],
+      status: false,
     });
   };
 
   return (
     <Modal isOpen={isOpen}>
-      <h1>Modal</h1>
+      <h1>Add Todo</h1>
       <input type="text" onChange={handleChange} />
-      <button onClick={() => onClose(newList)}>Add</button>
+      <button onClick={() => onClose(newTodo)}>Add</button>
     </Modal>
   );
 };
