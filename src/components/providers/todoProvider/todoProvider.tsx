@@ -82,39 +82,72 @@ export const ListProvider: React.FC<ListProviderProps> = (props) => {
   const setTodoStatus = (todoId: string) => {
     if (!currentList) return;
 
-    const updatedTodos = currentList.todos.map((todo) => {
-      if (todo.id === todoId) {
-        return { ...todo, status: !todo.status };
-      }
-      return todo;
-    });
+    const updatedList = toggleTodoCompletion(currentList, todoId);
 
-    const updatedLists = lists.map((listItem) => {
-      if (listItem.id === currentList.id) {
-        return { ...listItem, todos: updatedTodos };
-      }
-      return listItem;
-    });
+    const updatedLists = lists.map((list) =>
+      list.id === currentList.id ? updatedList : list
+    );
 
-    setCurrentList({ ...currentList, todos: updatedTodos });
+    setCurrentList(updatedList);
     setLists(updatedLists);
-
     localStorage.setItem("list", JSON.stringify(updatedLists));
+  };
+
+  const toggleTodoCompletion = (list: ListData, todoId: string) => {
+    const updatedList: ListData = {
+      ...list,
+      todos: [...list.todos],
+      completedTodos: [...list.completedTodos],
+    };
+
+    const todoIndex = updatedList.todos.findIndex((todo) => todo.id === todoId);
+
+    if (todoIndex !== -1) {
+      const [movingTodo] = updatedList.todos.splice(todoIndex, 1);
+      movingTodo.status = true;
+      updatedList.completedTodos.push(movingTodo);
+    } else {
+      const completedTodoIndex = updatedList.completedTodos.findIndex(
+        (todo) => todo.id === todoId
+      );
+
+      if (completedTodoIndex !== -1) {
+        const [movingTodo] = updatedList.completedTodos.splice(
+          completedTodoIndex,
+          1
+        );
+        movingTodo.status = false;
+        updatedList.todos.push(movingTodo);
+      }
+    }
+
+    return updatedList;
   };
 
   const removeTodoFromList = (todoId: string) => {
     if (!currentList) return;
 
     const updatedTodos = currentList.todos.filter((todo) => todo.id !== todoId);
+    const updatedCompletedTodos = currentList.completedTodos.filter(
+      (todo) => todo.id !== todoId
+    );
 
     const updatedLists = lists.map((listItem) => {
       if (listItem.id === currentList.id) {
-        return { ...listItem, todos: updatedTodos };
+        return {
+          ...listItem,
+          todos: updatedTodos,
+          completedTodos: updatedCompletedTodos,
+        };
       }
       return listItem;
     });
 
-    setCurrentList({ ...currentList, todos: updatedTodos });
+    setCurrentList({
+      ...currentList,
+      todos: updatedTodos,
+      completedTodos: updatedCompletedTodos,
+    });
     setLists(updatedLists);
 
     localStorage.setItem("list", JSON.stringify(updatedLists));

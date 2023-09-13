@@ -18,13 +18,14 @@ export const NewListModal: React.FC<NewListModalProps> = ({
     id: "",
     name: "",
     todos: [],
+    completedTodos: [],
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewList({
+      ...newList,
       id: uuidv4(),
       name: e.target.value,
-      todos: [],
     });
   };
 

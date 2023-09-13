@@ -8,4 +8,5 @@ export type ListData = {
   id: string;
   name: string;
   todos: TodoData[];
+  completedTodos: TodoData[];
 };
