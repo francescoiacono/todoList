@@ -1,10 +1,10 @@
-import { TaskInput } from "./subcomponents";
+import { ListSidebar, TodoList } from "./subcomponents";
 
 export const Home = () => {
   return (
-    <main>
-      <h1>Home</h1>
-      <TaskInput />
+    <main className=" h-screen flex">
+      <ListSidebar />
+      <TodoList />
     </main>
   );
 };
