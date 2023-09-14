@@ -4,7 +4,11 @@
 
 @layer base {
   h1 {
-    @apply text-xl uppercase;
+    @apply text-4xl font-semibold;
+  }
+
+  h2 {
+    @apply text-2xl;
   }
 }
 
