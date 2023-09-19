@@ -10,7 +10,7 @@ export const CheckboxLists = () => {
     <div className='p-4 flex-auto'>
       {currentList ? (
         <>
-          <h1 className='pb-4'>{currentList?.name}</h1>
+          <h1 className='pb-2'>{currentList?.name}</h1>
           <div className='flex flex-col gap-20 p-4'>
             <TodoList />
             <CompletedList />

@@ -1,7 +1,7 @@
 import { useTodoList } from '@/components/providers';
 import { useState } from 'react';
 import { TodoData } from '@/types/todoTypes';
-import { Input } from '@/components/ui';
+import { Input, PlusIcon } from '@/components/ui';
 import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 
@@ -10,7 +10,7 @@ export const NewListItemButton = () => {
 
   const [isInputOpen, setIsInputOpen] = useState(false);
   const [newTodo, setNewTodo] = useState<TodoData>({
-    id: '',
+    id: uuidv4(),
     name: '',
     status: false,
   });
@@ -26,6 +26,8 @@ export const NewListItemButton = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleTodoState();
+
+    if (error) setError('');
   };
 
   const handleTodoState = () => {
@@ -43,12 +45,10 @@ export const NewListItemButton = () => {
     setIsInputOpen(false);
 
     setNewTodo({
-      id: '',
+      id: uuidv4(),
       name: '',
       status: false,
     });
-
-    if (error) setError('');
   };
 
   return (
@@ -67,13 +67,8 @@ export const NewListItemButton = () => {
               className={`text-gray-500 w-full ${error && 'border-red-500'}`}
               onChange={handleChange}
             />
-            <button onClick={handleTodoState}>
-              <Image
-                src='/assets/images/icons/todoItem/confirm.svg'
-                alt='Confirm todo icon'
-                width={15}
-                height={15}
-              />
+            <button onClick={handleTodoState} type='button'>
+              <PlusIcon />
             </button>
           </form>
         ) : (

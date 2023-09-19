@@ -7,7 +7,6 @@ export const TodoList = () => {
 
   return (
     <ul className='flex flex-col gap-2 flex-auto'>
-      <h2>To do</h2>
       <NewListItemButton />
       {currentList && currentList.todos.length > 0 ? (
         currentList.todos.map((todo) => (
