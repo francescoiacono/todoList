@@ -1,36 +1,91 @@
 import { useTodoList } from '@/components/providers';
-import { NewTodoModal } from './subcomponents';
 import { useState } from 'react';
 import { TodoData } from '@/types/todoTypes';
+import { Input } from '@/components/ui';
+import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 
 export const NewListItemButton = () => {
   const { addTodoToList } = useTodoList();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInputOpen, setIsInputOpen] = useState(false);
+  const [newTodo, setNewTodo] = useState<TodoData>({
+    id: '',
+    name: '',
+    status: false,
+  });
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTodo({
+      ...newTodo,
+      name: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleTodoState();
+  };
+
+  const handleTodoState = () => {
+    setNewTodo({
+      ...newTodo,
+      id: uuidv4(),
+    });
+
+    if (newTodo.name === '') {
+      setError('You must enter a name for the todo!');
+      return;
+    }
+
+    addTodoToList(newTodo);
+    setIsInputOpen(false);
+
+    setNewTodo({
+      id: '',
+      name: '',
+      status: false,
+    });
+
+    if (error) setError('');
+  };
 
   return (
-    <div className=' flex-auto border rounded-xl p-4 font-semibold'>
-      <button
-        className='flex items-center gap-4 text-sm text-gray-500'
-        onClick={() => setIsModalOpen(true)}
-      >
+    <>
+      <div className='flex items-center gap-4 border rounded-xl p-4 font-semibold'>
         <Image
           src='/assets/images/icons/sidebar/plus.svg'
           alt='Add todo icon'
           width={15}
           height={15}
         />
-        Add item
-      </button>
-
-      <NewTodoModal
-        isOpen={isModalOpen}
-        onClose={(newTodo: TodoData) => {
-          addTodoToList(newTodo);
-          setIsModalOpen(false);
-        }}
-      />
-    </div>
+        {isInputOpen ? (
+          <form onSubmit={handleSubmit} className='flex flex-1 text-left'>
+            <Input
+              autoFocus
+              className={`text-gray-500 w-full ${error && 'border-red-500'}`}
+              onChange={handleChange}
+            />
+            <button onClick={handleTodoState}>
+              <Image
+                src='/assets/images/icons/todoItem/confirm.svg'
+                alt='Confirm todo icon'
+                width={15}
+                height={15}
+              />
+            </button>
+          </form>
+        ) : (
+          <button
+            className=' text-sm text-gray-500 flex-1 text-left'
+            onClick={() => setIsInputOpen(true)}
+          >
+            Add item
+          </button>
+        )}
+      </div>
+      {error && <p className='text-red-500 text-xs w-fit'>{error}</p>}
+    </>
   );
 };

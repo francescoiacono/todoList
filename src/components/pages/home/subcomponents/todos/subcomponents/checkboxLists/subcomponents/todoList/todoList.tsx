@@ -9,9 +9,13 @@ export const TodoList = () => {
     <ul className='flex flex-col gap-2 flex-auto'>
       <h2>To do</h2>
       <NewListItemButton />
-      {currentList?.todos.map((todo) => (
-        <CheckboxItem todo={todo} key={todo.id} />
-      ))}
+      {currentList && currentList.todos.length > 0 ? (
+        currentList.todos.map((todo) => (
+          <CheckboxItem todo={todo} key={todo.id} />
+        ))
+      ) : (
+        <p className='text-gray-500'>Nothing to do here!</p>
+      )}
     </ul>
   );
 };

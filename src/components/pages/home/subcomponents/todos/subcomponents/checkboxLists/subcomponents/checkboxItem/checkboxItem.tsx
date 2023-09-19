@@ -19,7 +19,7 @@ export const CheckboxItem: React.FC<CheckboxItemProps> = ({ todo }) => {
       <p className={todo.status ? `line-through` : ''}>{todo.name}</p>
 
       <button
-        className='ml-auto'
+        className='ml-auto min-w-fit'
         onClick={() => {
           removeTodoFromList(todo.id);
         }}

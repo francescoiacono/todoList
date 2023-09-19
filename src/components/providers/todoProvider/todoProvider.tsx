@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { ListData, TodoData } from "@/types/todoTypes";
-import { createContext, useContext, useEffect, useState } from "react";
+import { ListData, TodoData } from '@/types/todoTypes';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 interface ListProviderProps {
   children: React.ReactNode;
@@ -34,7 +34,7 @@ export const ListProvider: React.FC<ListProviderProps> = (props) => {
   const [currentList, setCurrentList] = useState<ListData | null>(null);
 
   useEffect(() => {
-    const listData = localStorage.getItem("list");
+    const listData = localStorage.getItem('list');
     if (listData) {
       setCurrentList(JSON.parse(listData)[0]);
       setLists(JSON.parse(listData));
@@ -45,7 +45,7 @@ export const ListProvider: React.FC<ListProviderProps> = (props) => {
     const newLists = [...lists, newList];
     setLists(newLists);
     setCurrentList(newList);
-    localStorage.setItem("list", JSON.stringify(newLists));
+    localStorage.setItem('list', JSON.stringify(newLists));
   };
 
   const loadList = (listId: string) => {
@@ -58,8 +58,10 @@ export const ListProvider: React.FC<ListProviderProps> = (props) => {
   const removeList = (listId: string) => {
     const updatedLists = lists.filter((listItem) => listItem.id !== listId);
 
+    setCurrentList(updatedLists.length <= 0 ? null : updatedLists[0]);
+
     setLists(updatedLists);
-    localStorage.setItem("list", JSON.stringify(updatedLists));
+    localStorage.setItem('list', JSON.stringify(updatedLists));
   };
 
   const addTodoToList = (todo: TodoData) => {
@@ -76,7 +78,7 @@ export const ListProvider: React.FC<ListProviderProps> = (props) => {
     setCurrentList({ ...currentList, todos: updatedTodos });
     setLists(updatedLists);
 
-    localStorage.setItem("list", JSON.stringify(updatedLists));
+    localStorage.setItem('list', JSON.stringify(updatedLists));
   };
 
   const setTodoStatus = (todoId: string) => {
@@ -90,7 +92,7 @@ export const ListProvider: React.FC<ListProviderProps> = (props) => {
 
     setCurrentList(updatedList);
     setLists(updatedLists);
-    localStorage.setItem("list", JSON.stringify(updatedLists));
+    localStorage.setItem('list', JSON.stringify(updatedLists));
   };
 
   const toggleTodoCompletion = (list: ListData, todoId: string) => {
@@ -150,7 +152,7 @@ export const ListProvider: React.FC<ListProviderProps> = (props) => {
     });
     setLists(updatedLists);
 
-    localStorage.setItem("list", JSON.stringify(updatedLists));
+    localStorage.setItem('list', JSON.stringify(updatedLists));
   };
 
   return (
@@ -174,7 +176,7 @@ export const ListProvider: React.FC<ListProviderProps> = (props) => {
 export const useTodoList = () => {
   const context = useContext(ListContext);
   if (!context) {
-    throw new Error("useTodoList must be used within a TodoListProvider");
+    throw new Error('useTodoList must be used within a TodoListProvider');
   }
   return context;
 };
