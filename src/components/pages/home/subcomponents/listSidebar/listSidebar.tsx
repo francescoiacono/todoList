@@ -6,7 +6,13 @@ import { LeftArrowIcon } from '@/components/ui';
 import classnames from 'classnames';
 
 export const ListSidebar = () => {
-  const { isSidebarOpen, setIsSidebarOpen, windowWidth } = useSidebar();
+  const { isSidebarOpen, setIsSidebarOpen, windowWidth, isMounted } =
+    useSidebar();
+
+  if (!isMounted)
+    return (
+      <div className='animate-pulse h-[calc(100vh-2rem)] w-[18rem] bg-slate-100'></div>
+    );
 
   const sidebarClass = classnames(
     'bg-slate-100 px-4 py-2 text-sm overflow-hidden transition-all ease-in-out duration-300 top-0 left-0 z-10',

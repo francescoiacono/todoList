@@ -10,40 +10,40 @@ interface SidebarContextProps {
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
   windowWidth: number;
+  isMounted: boolean;
 }
 
 export const SidebarContext = createContext<SidebarContextProps>({
   isSidebarOpen: true,
   setIsSidebarOpen: () => {},
   windowWidth: 0,
+  isMounted: false,
 });
 
 export const SidebarProvider = ({ children }: SidebarProviderProps) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setWindowWidth(window.innerWidth);
-    }
-
+    setIsMounted(true);
+    setWindowWidth(window.innerWidth);
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    setWindowWidth(window.innerWidth);
-
+  useEffect(() => {
     if (windowWidth < 768) {
       setIsSidebarOpen(false);
     } else {
       setIsSidebarOpen(true);
     }
-
-    return () => window.removeEventListener('resize', handleResize);
   }, [windowWidth]);
 
   return (
     <SidebarContext.Provider
-      value={{ isSidebarOpen, setIsSidebarOpen, windowWidth }}
+      value={{ isSidebarOpen, setIsSidebarOpen, windowWidth, isMounted }}
     >
       {children}
     </SidebarContext.Provider>

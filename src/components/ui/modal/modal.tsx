@@ -10,11 +10,28 @@ interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = (props) => {
   const { isOpen, closeModal, children, title } = props;
+
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [closeModal, isClient]);
 
   const stopPropagation = (e: React.MouseEvent) => {
     e.stopPropagation();
