@@ -11,12 +11,14 @@ export const CheckboxItem: React.FC<CheckboxItemProps> = ({ todo }) => {
 
   return (
     <li className='flex gap-4 border-b px-4 py-2'>
-      <input
-        type='checkbox'
-        checked={todo.status}
-        onChange={() => setTodoStatus(todo.id)}
-      />
-      <p className={todo.status ? `line-through` : ''}>{todo.name}</p>
+      <label className='flex gap-4'>
+        <input
+          type='checkbox'
+          checked={todo.status}
+          onChange={() => setTodoStatus(todo.id)}
+        />
+        <p className={todo.status ? `line-through` : ''}>{todo.name}</p>
+      </label>
 
       <button
         className='ml-auto min-w-fit'

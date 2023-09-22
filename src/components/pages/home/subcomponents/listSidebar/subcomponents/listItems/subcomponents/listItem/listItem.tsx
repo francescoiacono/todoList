@@ -1,6 +1,6 @@
-import { useTodoList } from "@/components/providers";
-import { ListData } from "@/types/todoTypes";
-import Image from "next/image";
+import { useSidebar, useTodoList } from '@/components/providers';
+import { ListData } from '@/types/todoTypes';
+import Image from 'next/image';
 
 interface ListItemProps {
   list: ListData;
@@ -8,6 +8,7 @@ interface ListItemProps {
 
 export const ListItem: React.FC<ListItemProps> = ({ list }) => {
   const { loadList, removeList, currentList } = useTodoList();
+  const { isSidebarOpen, setIsSidebarOpen } = useSidebar();
 
   const isActive = currentList?.id === list.id;
 
@@ -18,7 +19,13 @@ export const ListItem: React.FC<ListItemProps> = ({ list }) => {
         isActive && `bg-sky-100 rounded-xl font-bold text-sky-600`
       }`}
     >
-      <button className=" text-left grow" onClick={() => loadList(list.id)}>
+      <button
+        className=' text-left grow'
+        onClick={() => {
+          loadList(list.id);
+          if (isSidebarOpen && window.innerWidth < 768) setIsSidebarOpen(false);
+        }}
+      >
         {list.name}
       </button>
       <button
@@ -27,8 +34,8 @@ export const ListItem: React.FC<ListItemProps> = ({ list }) => {
         }}
       >
         <Image
-          src="/assets/images/icons/sidebar/cross.svg"
-          alt="Remove list button"
+          src='/assets/images/icons/sidebar/cross.svg'
+          alt='Remove list button'
           width={20}
           height={20}
         />

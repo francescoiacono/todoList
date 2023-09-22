@@ -16,9 +16,9 @@ const lineStyle: CSSProperties = {
   backgroundColor: 'rgb(107 114 128 / var(--tw-text-opacity))',
 };
 
-export const PlusIcon = () => {
+export const PlusIcon = (props: { className?: string }) => {
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} className={props.className}>
       <div style={{ ...lineStyle, transform: 'rotate(90deg)' }}></div>
       <div style={{ ...lineStyle }}></div>
     </div>

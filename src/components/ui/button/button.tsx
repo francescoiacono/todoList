@@ -4,7 +4,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
   return (
     <button
       {...props}
-      className={`${props.className} border-2 rounded-lg border-none bg-sky-500 hover:bg-sky-700 pr-3 pl-3 pt-2 pb-2 text-white transition-all hover:shadow-md focus:shadow-md`}
+      className={`${props.className} px-3 py-2 rounded-lg border-none bg-sky-100 font-bold text-sky-600 hover:bg-sky-700 hover:text-white transition-all`}
     >
       {props.children}
     </button>
