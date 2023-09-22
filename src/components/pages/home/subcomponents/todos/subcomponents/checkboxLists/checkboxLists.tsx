@@ -15,7 +15,10 @@ export const CheckboxLists = () => {
         <>
           <div className='pb-2 flex gap-4'>
             {!isSidebarOpen && (
-              <button onClick={() => setIsSidebarOpen(true)}>
+              <button
+                className='shrink-0'
+                onClick={() => setIsSidebarOpen(true)}
+              >
                 <BurgerIcon />
               </button>
             )}

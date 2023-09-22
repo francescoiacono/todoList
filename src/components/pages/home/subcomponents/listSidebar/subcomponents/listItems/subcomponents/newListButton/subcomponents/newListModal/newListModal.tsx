@@ -6,6 +6,8 @@ import { ListData } from '@/types/todoTypes';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+const MAX_INPUT_LENGTH = 1000;
+
 interface NewListModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -45,8 +47,8 @@ export const NewListModal: React.FC<NewListModalProps> = ({
       return;
     }
 
-    if (newList.name.length > 20) {
-      setError('List name must be less than 20 characters!');
+    if (newList.name.length > MAX_INPUT_LENGTH) {
+      setError(`List name must be less than ${MAX_INPUT_LENGTH} characters!`);
       return;
     }
 
@@ -65,7 +67,12 @@ export const NewListModal: React.FC<NewListModalProps> = ({
   return (
     <Modal closeModal={closeModal} title='New List' isOpen={isOpen}>
       <form onSubmit={handleSubmit} className='flex gap-2'>
-        <InputWithBorder autoFocus type='text' onChange={handleChange} />
+        <InputWithBorder
+          maxLength={MAX_INPUT_LENGTH}
+          autoFocus
+          type='text'
+          onChange={handleChange}
+        />
         <Button type='submit'>Add</Button>
       </form>
       <p className='mt-2 text-red-500'>{error}</p>

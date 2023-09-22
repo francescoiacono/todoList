@@ -20,7 +20,7 @@ export const ListItem: React.FC<ListItemProps> = ({ list }) => {
       }`}
     >
       <button
-        className=' text-left grow'
+        className='text-left grow overflow-ellipsis overflow-hidden'
         onClick={() => {
           loadList(list.id);
           if (isSidebarOpen && window.innerWidth < 768) setIsSidebarOpen(false);
@@ -29,6 +29,7 @@ export const ListItem: React.FC<ListItemProps> = ({ list }) => {
         {list.name}
       </button>
       <button
+        className='shrink-0'
         onClick={() => {
           removeList(list.id);
         }}
