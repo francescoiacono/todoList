@@ -37,7 +37,6 @@ export const NewListModal: React.FC<NewListModalProps> = ({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleStateUpdate();
-    if (error) setError('');
   };
 
   const handleStateUpdate = () => {
@@ -45,6 +44,13 @@ export const NewListModal: React.FC<NewListModalProps> = ({
       setError('You must enter a name for the list!');
       return;
     }
+
+    if (newList.name.length > 20) {
+      setError('List name must be less than 20 characters!');
+      return;
+    }
+
+    if (error) setError('');
 
     addList(newList);
     closeModal();

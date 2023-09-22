@@ -7,7 +7,7 @@ import { BurgerIcon } from '@/components/ui';
 
 export const CheckboxLists = () => {
   const { currentList } = useTodoList();
-  const { isSidebarOpen, setIsSidebarOpen } = useSidebar();
+  const { isSidebarOpen, setIsSidebarOpen, isMounted } = useSidebar();
 
   return (
     <div className='p-4 flex-auto'>
@@ -28,7 +28,8 @@ export const CheckboxLists = () => {
         </>
       ) : (
         <>
-          {!isSidebarOpen && !currentList && (
+          {!isMounted && <p className='italic text-sm'>Loading...</p>}
+          {!isSidebarOpen && !currentList && isMounted && (
             <button onClick={() => setIsSidebarOpen(true)}>
               <BurgerIcon />
             </button>
